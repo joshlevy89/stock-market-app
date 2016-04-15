@@ -22,16 +22,20 @@ var config = {
       test: /\.css$/,
       loader: 'style!css'
     }]
-  },
-  plugins:[
+  }
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
-      'process.env':{
+      'process.env': {
         'NODE_ENV': JSON.stringify('production')
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress:{
-        warnings: true
+      minimize: true,
+      compress: {
+        warnings: false
       }
     })
   ]
