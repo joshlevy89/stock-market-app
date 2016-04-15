@@ -1,6 +1,6 @@
 // Since postinstall will also run when you run npm install
 // locally we make sure it only runs in production
-console.log('JOSH: STATE IS ' + process.en.NODE_ENV)
+console.log('JOSH: STATE IS ' + process.env.NODE_ENV)
 if (process.env.NODE_ENV === 'production') {
 
   // We basically just create a child process that will run
