@@ -13,7 +13,6 @@ app.use(express.static(publicPath));
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
-
   // We require the bundler inside the if block because
   // it is only needed in a development environment. Later
   // you will see why this is a good idea
