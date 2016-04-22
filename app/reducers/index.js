@@ -16,6 +16,16 @@ export function stocks(state={},action) {
 	}
 }
 
+function lookback(state=30,action) {
+	switch (action.type) {
+		case 'SET_LOOKBACK':
+			state = action.days;
+		default:
+			return state
+	}
+}
+
 export default combineReducers({
-	stocks
+	stocks,
+	lookback
 })

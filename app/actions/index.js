@@ -29,3 +29,10 @@ export function delete_stock(key) {
     key: key
   }
 }
+
+export function set_lookback(days) {
+  return {
+    type: 'SET_LOOKBACK',
+    days: days
+  }
+}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { quandle_request, delete_stock } from '../actions'
+import { quandle_request, delete_stock, set_lookback } from '../actions'
 var LineChart = require("react-chartjs").Line
 import { connect } from 'react-redux'
 var moment = require('moment');
 import { chartOptions, emptyChart, stockDatasetSkeleton } from '../helpers/chartParams.js'
 import StockList from '../components/StockList'
+import LookbackToggles from '../components/LookbackToggles'
 
 class StockGraph extends Component {
 
@@ -16,10 +17,10 @@ class StockGraph extends Component {
   }
 
   render() {
-	const { stocks, delete_stock } = this.props
+	const { stocks, lookback, delete_stock, set_lookback } = this.props
 
 	// get the utc for the farthest date in the past
-  	var numDays = 365;
+  	var numDays = lookback;
   	var lowestUtc = moment().subtract(numDays,"days").valueOf();
 
   	// initialize chart data
@@ -68,6 +69,7 @@ class StockGraph extends Component {
     return (
    	<div>
     <h1>Stock Graph</h1>
+    <LookbackToggles {...this.props}/>
     <div><LineChart data={chartData} options={chartOptions} width="600" height="250" redraw/></div>
     {/*<button onClick = {() => quandle_request()}>Make Quandle Request</button>*/}
     Stock Symbol: <input ref="myInput" 
@@ -80,13 +82,14 @@ class StockGraph extends Component {
 
 function mapStateToProps(state) {
 	return {
-		stocks: state.stocks
+		stocks: state.stocks,
+		lookback: state.lookback
 	}
 }
 
 StockGraph = connect(
 mapStateToProps,
-{ quandle_request, delete_stock }
+{ quandle_request, delete_stock, set_lookback }
 )(StockGraph)
 
 export default StockGraph
