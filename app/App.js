@@ -17,10 +17,10 @@ let store = createStore(
 )
 
 if (isProduction) {
-	var socket = io('http://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
+	var socket = io('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
 }
 else {
- 	var socket = io('http://localhost:' + 3000 + '/')
+ 	var socket = io('https://localhost:' + 3000 + '/')
 }	   	
 socket.on('new_stock_added', function(data) {
    store.dispatch(receive_stock(data))
