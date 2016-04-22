@@ -17,8 +17,8 @@ let store = createStore(
 )
 
 if (isProduction) {
-	var socket = io('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
-	console.log(socket)
+	//var socket = io('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
+	var socket = io('https://localhost:' + 3000 + '/')
 }
 else {
  	var socket = io('https://localhost:' + 3000 + '/')
