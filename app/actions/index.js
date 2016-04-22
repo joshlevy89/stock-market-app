@@ -7,10 +7,11 @@ function receive_stock(data) {
 	}
 }
 
-export function quandle_request() {
-return (dispatch) => {
-var url = 'https://www.quandl.com/api/v3/datasets/WIKI/FB.json?api_key=bCRpjzvgPNkxLzqAv2yY'
-fetch(url)
+export function quandle_request(symbol) {
+ return (dispatch) => {
+ var url = 'https://www.quandl.com/api/v3/datasets/WIKI/'+symbol+
+           '.json?api_key=bCRpjzvgPNkxLzqAv2yY';
+ fetch(url)
   .then(function(response) {
     return response.json()
   }).then(function(json) {
@@ -20,4 +21,11 @@ fetch(url)
     console.log('parsing failed', ex)
   })
 }
+}
+
+export function delete_stock(key) {
+  return {
+    type: 'DELETE_STOCK',
+    key: key
+  }
 }
