@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { quandle_request, delete_stock, set_lookback } from '../actions'
+import { quandle_request, set_lookback } from '../actions'
 var LineChart = require("react-chartjs").Line
 import { connect } from 'react-redux'
 var moment = require('moment');
@@ -10,14 +10,13 @@ import LookbackToggles from '../components/LookbackToggles'
 class StockGraph extends Component {
 
   handleInputChange(e,val) {
-  	const { quandle_request } = this.props
   	if (e.keyCode === 13) {
   		quandle_request(val)
   	}
   }
 
   render() {
-	const { stocks, lookback, delete_stock, set_lookback } = this.props
+	const { stocks, lookback, set_lookback } = this.props
 
 	// get the utc for the farthest date in the past
   	var numDays = lookback;
@@ -89,7 +88,7 @@ function mapStateToProps(state) {
 
 StockGraph = connect(
 mapStateToProps,
-{ quandle_request, delete_stock, set_lookback }
+{ set_lookback }
 )(StockGraph)
 
 export default StockGraph

@@ -8,7 +8,6 @@ export function receive_stock(data) {
 }
 
 export function quandle_request(symbol) {
- return (dispatch) => {
  var url = 'https://www.quandl.com/api/v3/datasets/WIKI/'+symbol+
            '.json?api_key=bCRpjzvgPNkxLzqAv2yY';
  fetch(url)
@@ -27,6 +26,16 @@ export function quandle_request(symbol) {
     console.log('parsing failed', ex)
   })
 }
+
+export function handle_delete_stock(key) {
+  fetch('/delete-stock-from-db', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+      body: JSON.stringify({key:key})
+    })
 }
 
 export function delete_stock(key) {
@@ -35,6 +44,7 @@ export function delete_stock(key) {
     key: key
   }
 }
+
 
 export function set_lookback(days) {
   return {

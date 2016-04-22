@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import io from 'socket.io-client';
 import reducers from './reducers'
 import StockGraph from './containers/StockGraph'
-import { receive_stock } from './actions'
+import { receive_stock, delete_stock } from './actions'
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -24,6 +24,9 @@ else {
 }	   	
 socket.on('new_stock_added', function(data) {
    store.dispatch(receive_stock(data))
+});
+socket.on('stock_deleted', function(data) {
+   store.dispatch(delete_stock(data.key))
 });
 
 export default class App extends Component {

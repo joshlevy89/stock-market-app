@@ -28,10 +28,20 @@ if (!isProduction) {
   });
 }
 
+// add stock to db
 app.post('/add-stock-to-db',function(req,res){
   var dataset = req.body.dataset;
   io.sockets.emit('new_stock_added',{
           dataset: dataset
+  })
+  res.end()
+})
+
+// delete stock from db
+app.post('/delete-stock-from-db',function(req,res){
+  var key = req.body.key;
+  io.sockets.emit('stock_deleted',{
+           key: key
   })
   res.end()
 })

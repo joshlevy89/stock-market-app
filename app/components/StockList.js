@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { handle_delete_stock } from '../actions'
 
 class StockList extends Component {
 	render() {
@@ -10,7 +11,7 @@ class StockList extends Component {
     				<button>Symbol: {stocks[key].dataset_code}
     					<div>
     					<a href="#" onClick={()=>
-    						delete_stock(key)
+    						handle_delete_stock(key)
     					}>Delete</a>
     					</div>
     				</button>
