@@ -1,7 +1,13 @@
 var express = require('express');
 var app = express();
-var http = require('http').Server(app)
-var io = require('socket.io')(http)
+const fs = require('fs');
+const options = {
+  key: fs.readFileSync('./key.pem'),
+  cert: fs.readFileSync('./key-cert.pem')
+};
+
+var server = require('https').Server(options,app)
+var io = require('socket.io')(server)
 var path = require('path');
 var cors = require('cors')
 var bodyParser = require('body-parser')
@@ -23,7 +29,7 @@ if (!isProduction) {
   // to webpack-server
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'http://localhost:8080'
+        target: 'https://localhost:8080'
     });
   });
 }
@@ -53,6 +59,6 @@ proxy.on('error', function(e) {
   console.log('Could not connect to proxy, please try again...');
 });
 
-http.listen(port, function () {
+server.listen(port, function () {
   console.log('Server running on port ' + port);
 });

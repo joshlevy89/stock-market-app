@@ -55,6 +55,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.4",
+    "fs": "0.0.2",
     "http-proxy": "^1.13.2",
     "immutable": "^3.8.0",
     "moment": "^2.13.0",
