@@ -6,7 +6,7 @@ const options = {
   cert: fs.readFileSync('./key-cert.pem')
 };
 
-var server = require('https').Server(options,app)
+var server = require('https').createServer(options,app)
 var io = require('socket.io')(server)
 var path = require('path');
 var cors = require('cors')
