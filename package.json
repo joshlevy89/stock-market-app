@@ -51,6 +51,7 @@
     "babel-preset-stage-0": "^6.0.15",
     "body-parser": "^1.15.0",
     "chart.js": "^1.1.1",
+    "cors": "^2.7.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.4",
@@ -65,6 +66,8 @@
     "redux": "^3.4.0",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
+    "socket.io": "^1.4.5",
+    "socket.io-client": "^1.4.5",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1"
   }

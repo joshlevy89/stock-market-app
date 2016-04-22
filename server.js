@@ -1,10 +1,13 @@
 var express = require('express');
+var app = express();
+var http = require('http').Server(app)
+var io = require('socket.io')(http)
 var path = require('path');
-var httpProxy = require('http-proxy');
+var cors = require('cors')
 var bodyParser = require('body-parser')
 
+var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxyServer();
-var app = express();
 
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
@@ -12,15 +15,10 @@ var publicPath = path.resolve(__dirname, 'public');
 
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
+app.use(cors());
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
-  // We require the bundler inside the if block because
-  // it is only needed in a development environment. Later
-  // you will see why this is a good idea
-  //var bundle = require('./webpack-server/bundle.js');
-  //bundle();
-
   // Any requests to localhost:3000/build is proxied
   // to webpack-server
   app.all('/build/*', function (req, res) {
@@ -28,12 +26,13 @@ if (!isProduction) {
         target: 'http://localhost:8080'
     });
   });
-
 }
 
 app.post('/add-stock-to-db',function(req,res){
-  console.log('bloopin')
-  console.log(req.body)
+  var dataset = req.body.dataset;
+  io.sockets.emit('new_stock_added',{
+          dataset: dataset
+  })
   res.end()
 })
 
@@ -44,6 +43,6 @@ proxy.on('error', function(e) {
   console.log('Could not connect to proxy, please try again...');
 });
 
-app.listen(port, function () {
+http.listen(port, function () {
   console.log('Server running on port ' + port);
 });

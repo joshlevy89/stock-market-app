@@ -1,4 +1,4 @@
-function receive_stock(data) {
+export function receive_stock(data) {
 	var dataset = data.dataset
 	return {
 		type: 'RECEIVE_STOCK',
@@ -15,13 +15,13 @@ export function quandle_request(symbol) {
   .then(function(response) {
     return response.json()
   }).then(function(json) {
-    // dispatch data to store
-    //dispatch(receive_stock(json))
-    // add stock to database
-    console.log(json)
-    fetch("/add-stock-to-db", {
-      method: "post",
-      body: json
+    fetch('/add-stock-to-db', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+      body: JSON.stringify(json)
     })
   }).catch(function(ex) {
     console.log('parsing failed', ex)
