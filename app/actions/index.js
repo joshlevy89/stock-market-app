@@ -16,7 +16,13 @@ export function quandle_request(symbol) {
     return response.json()
   }).then(function(json) {
     // dispatch data to store
-    dispatch(receive_stock(json))
+    //dispatch(receive_stock(json))
+    // add stock to database
+    console.log(json)
+    fetch("/add-stock-to-db", {
+      method: "post",
+      body: json
+    })
   }).catch(function(ex) {
     console.log('parsing failed', ex)
   })

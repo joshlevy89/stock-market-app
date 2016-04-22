@@ -5,7 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var mainPath = path.resolve(__dirname, '..', 'app', 'main.js');
 
-module.exports = function () {
+//module.exports = function () {
 
   // First we fire up Webpack an pass in the configuration we
   // created
@@ -49,4 +49,4 @@ module.exports = function () {
     console.log('Bundling project, please wait...');
   });
 
-};
+//};
