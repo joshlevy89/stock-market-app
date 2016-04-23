@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-//var sslRedirect = require('heroku-ssl-redirect');
 const fs = require('fs');
 const options = {
   key: fs.readFileSync('./key.pem'),
@@ -24,7 +23,7 @@ var publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(sslRedirect());
+//app.use(sslRedirect());
 
 
 // We only want to run the workflow when not in production
