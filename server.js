@@ -7,7 +7,8 @@ const options = {
   cert: fs.readFileSync('./key-cert.pem')
 };
 
-var server = require('https').createServer(options,app)
+//var server = require('https').createServer(options,app)
+var server = require('http').Server(app);
 var io = require('socket.io')(server)
 var path = require('path');
 var cors = require('cors')
@@ -15,6 +16,7 @@ var bodyParser = require('body-parser')
 
 var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxyServer();
+
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
 var publicPath = path.resolve(__dirname, 'public');
@@ -31,7 +33,7 @@ if (!isProduction) {
   // to webpack-server
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'https://localhost:8080'
+        target: 'http://localhost:8080'
     });
   });
 }

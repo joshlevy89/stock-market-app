@@ -42,7 +42,9 @@
     "babel-preset-stage-0": "^6.0.15",
     "body-parser": "^1.15.0",
     "chart.js": "^1.1.1",
+    "colormap": "^2.1.2",
     "cors": "^2.7.1",
+    "css-loader": "^0.23.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.6.2",
     "express": "^4.13.4",
@@ -50,6 +52,7 @@
     "http-proxy": "^1.13.2",
     "immutable": "^3.8.0",
     "moment": "^2.13.0",
+    "node-sass": "^3.5.3",
     "react": "^0.14.6",
     "react-chartjs": "^0.7.3",
     "react-dom": "^0.14.6",
@@ -58,8 +61,10 @@
     "redux": "^3.4.0",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.0.1",
+    "sass-loader": "^3.2.0",
     "socket.io": "^1.4.5",
     "socket.io-client": "^1.4.5",
+    "style-loader": "^0.13.1",
     "webpack": "^1.12.2"
   }
 }

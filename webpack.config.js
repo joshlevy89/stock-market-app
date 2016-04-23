@@ -15,7 +15,7 @@ var config = {
     'webpack/hot/dev-server',
 
     // The script refreshing the browser on none hot updates
-    'webpack-dev-server/client?https://localhost:8080',
+    'webpack-dev-server/client?http://localhost:8080',
 
     // Our application
     mainPath],
@@ -47,11 +47,9 @@ var config = {
 
     // Let us also add the style-loader and css-loader, which you can
     // expand with less-loader etc.
-    {
-      test: /\.css$/,
-      loader: 'style!css'
+    { test: /\.scss$/,
+      loaders: ["style", "css", "sass"]
     }
-
     ]
   },
 
