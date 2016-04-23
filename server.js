@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var sslRedirect = require('heroku-ssl-redirect');
+//var sslRedirect = require('heroku-ssl-redirect');
 const fs = require('fs');
 const options = {
   key: fs.readFileSync('./key.pem'),
