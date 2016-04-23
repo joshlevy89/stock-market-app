@@ -8,7 +8,6 @@ import reducers from './reducers'
 import StockGraph from './containers/StockGraph'
 import { receive_stock, delete_stock } from './actions'
 
-var isProduction = process.env.NODE_ENV === 'production';
 
 const middleware = isProduction ? [ thunk ]:[thunk, logger()]
 let store = createStore(
@@ -16,6 +15,7 @@ let store = createStore(
 	applyMiddleware(...middleware)
 )
 
+var isProduction = process.env.NODE_ENV === 'production';
 if (isProduction) {
 	//var socket = io('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
 	var socket = io('https://localhost:' + 3000 + '/')
