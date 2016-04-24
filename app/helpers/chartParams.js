@@ -1,7 +1,7 @@
 var colormap = require('colormap');
 var options = {
   colormap: 'jet',   // pick a builtin colormap or add your own 
-  nshades: 11,       // how many divisions 
+  nshades: 15,       // how many divisions 
   format: 'rgbaString'     // "hex" or "rgb" or "rgbaString" 
 }
 var mycolormap = colormap(options)
