@@ -83,5 +83,5 @@ proxy.on('error', function(e) {
 // });
 
 httpsServer.listen(port, function () {
-  console.log('https Server running on port ' + (port));
+  console.log('https server running on port ' + (port));
 });

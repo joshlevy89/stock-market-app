@@ -17,9 +17,9 @@ let store = createStore(
 
 var isProduction = process.env.NODE_ENV === 'production';
 if (isProduction) {
-	var socket = io.connect('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/');
+	var socket = io.connect('https://my-stock-watcher.herokuapp.com/' + process.env.PORT + '/',{secure:true});
   //console.log(socket);
-	//var socket = io('http://localhost:' + 3000 + '/')
+	//var socket = io.connect('https://localhost:' + 3000 + '/',{secure:true});
 }
 else {
  	var socket = io.connect('https://localhost:' + 3000 + '/',{secure: true})
