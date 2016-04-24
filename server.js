@@ -41,6 +41,7 @@ if (!isProduction) {
 db.dbConnect(function(err,db){
   // add stock to db
   app.post('/add-stock-to-db',function(req,res){
+    console.log("TRYING TO ADD A STOCK");
     var dataset = req.body.dataset;
     var datasets = db.collection('datasets');
     datasets.insert(dataset);
