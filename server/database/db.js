@@ -10,7 +10,7 @@ function db() {
 	  else {
 	  	var isProduction = process.env.NODE_ENV === 'production';
 	  	if (isProduction) {
-	  		//var url = 'mongodb://<dbuser>:<dbpassword>@ds019480.mlab.com:19480/heroku_gbbl17lz';
+	    	var url = 'mongodb://heroku_2jjk5cwq:Born=1989@ds019471.mlab.com:19471/heroku_2jjk5cwq';
 	    }
 	    else {
 			var url = 'mongodb://localhost:27017/my-stock-watcher';
