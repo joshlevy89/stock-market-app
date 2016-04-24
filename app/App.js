@@ -22,7 +22,7 @@ if (isProduction) {
 	//var socket = io('http://localhost:' + 3000 + '/')
 }
 else {
- 	var socket = io('http://localhost:' + 3000 + '/')
+ 	var socket = io.connect('https://localhost:' + 3000 + '/',{secure: true})
 }	   	
 socket.on('new_stock_added', function(data) {
    store.dispatch(receive_stock(data.dataset))

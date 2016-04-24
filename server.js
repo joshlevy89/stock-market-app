@@ -1,14 +1,14 @@
 var express = require('express');
 var app = express();
 const fs = require('fs');
-const options = {
-  key: fs.readFileSync('./key.pem'),
-  cert: fs.readFileSync('./key-cert.pem')
-};
 
-//var server = require('https').createServer(options,app)
-var server = require('http').Server(app);
-var io = require('socket.io')(server)
+var httpsServer = require('https').createServer({
+      key: fs.readFileSync('key.pem'),
+      cert: fs.readFileSync('cert.pem')
+    }, app);
+//var httpsServer = require('https').createServer(options,app);
+//var httpServer = require('http').Server(app);
+var io = require('socket.io')(httpsServer);
 var database = require('./server/database/db.js')
 var db = new database();
 
@@ -41,7 +41,6 @@ if (!isProduction) {
 db.dbConnect(function(err,db){
   // add stock to db
   app.post('/add-stock-to-db',function(req,res){
-    console.log("TRYING TO ADD A STOCK");
     var dataset = req.body.dataset;
     var datasets = db.collection('datasets');
     datasets.insert(dataset);
@@ -72,7 +71,6 @@ db.dbConnect(function(err,db){
   })
 })
 
-
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
 // server when webpack is bundling
@@ -80,6 +78,10 @@ proxy.on('error', function(e) {
   console.log('Could not connect to proxy, please try again...');
 });
 
-server.listen(port, function () {
-  console.log('Server running on port ' + port);
+// httpServer.listen(port, function () {
+//   console.log('http server running on port ' + port);
+// });
+
+httpsServer.listen(port, function () {
+  console.log('https Server running on port ' + (port));
 });

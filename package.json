@@ -6,6 +6,7 @@
     "dev": "nodemon server.js --watch server.js & node ./webpack-server/bundle.js",
     "start": "node server.js",
     "postinstall": "node deploy",
+    "prod-test": "NODE_ENV=production PORT=3000 node deploy & node server.js",
     "lint": "eslint src"
   },
   "repository": {
