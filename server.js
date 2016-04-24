@@ -9,13 +9,14 @@ const options = {
 //var server = require('https').createServer(options,app)
 var server = require('http').Server(app);
 var io = require('socket.io')(server)
+var database = require('./server/database/db.js')
+var db = new database();
+
 var path = require('path');
 var cors = require('cors')
 var bodyParser = require('body-parser')
-
 var httpProxy = require('http-proxy');
 var proxy = httpProxy.createProxyServer();
-
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
 var publicPath = path.resolve(__dirname, 'public');
@@ -37,23 +38,39 @@ if (!isProduction) {
   });
 }
 
-// add stock to db
-app.post('/add-stock-to-db',function(req,res){
-  var dataset = req.body.dataset;
-  io.sockets.emit('new_stock_added',{
-          dataset: dataset
+db.dbConnect(function(err,db){
+  // add stock to db
+  app.post('/add-stock-to-db',function(req,res){
+    var dataset = req.body.dataset;
+    var datasets = db.collection('datasets');
+    datasets.insert(dataset);
+    io.sockets.emit('new_stock_added',{
+            dataset: dataset
+    })
+    res.end()
   })
-  res.end()
+
+  // delete stock from db
+  app.post('/delete-stock-from-db',function(req,res){
+    var datasets = db.collection('datasets');
+    var id = req.body.id;
+    datasets.remove({id: id});
+    io.sockets.emit('stock_deleted',{
+             id: id
+    })
+    res.end()
+  })
+
+  app.get('/get-all-stocks', function(req,res){
+    var datasets = db.collection('datasets');
+    datasets.find({}).toArray(function(err,docs){
+      io.sockets.emit('all_stocks_sent', {
+        datasets: docs
+      });
+    })
+  })
 })
 
-// delete stock from db
-app.post('/delete-stock-from-db',function(req,res){
-  var key = req.body.key;
-  io.sockets.emit('stock_deleted',{
-           key: key
-  })
-  res.end()
-})
 
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the

@@ -1,0 +1,14 @@
+.loading{
+  position:absolute;
+  top:100px;
+  right:0px;
+  width:50%;
+  height:40%;
+  margin-left:300px;
+  margin-right:300px;
+  background-image:url('https://d13yacurqjgara.cloudfront.net/users/82092/screenshots/1073359/spinner.gif');
+  background-repeat:no-repeat;
+  background-position:center;
+  z-index:10000000;
+  opacity: .4;
+}

@@ -14,9 +14,9 @@ class StockList extends Component {
     		return (<div key={key} className="symbolPanel">
     				<button>Symbol: {stocks[key].dataset_code}
     					<div>
-    					<a href="#" onClick={()=>
-    						handle_delete_stock(key)
-    					}>Delete</a>
+    					<a href="#" onClick={()=>{
+    						handle_delete_stock(stocks[key].id)
+    					}}>Delete</a>
     					</div>
     				</button>
     				</div>)

@@ -52,6 +52,7 @@
     "http-proxy": "^1.13.2",
     "immutable": "^3.8.0",
     "moment": "^2.13.0",
+    "mongodb": "^2.1.16",
     "node-sass": "^3.5.3",
     "react": "^0.14.6",
     "react-chartjs": "^0.7.3",

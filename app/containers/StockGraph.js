@@ -6,6 +6,7 @@ var moment = require('moment');
 import { chartOptions, emptyChart, stockDatasetSkeleton } from '../helpers/chartParams.js'
 import StockList from '../components/StockList'
 import LookbackToggles from '../components/LookbackToggles';
+import WaitingDisplay from '../components/WaitingDisplay'
 require('./../styles/StockGraph.scss');
 require('./../styles/index.scss');
 
@@ -18,8 +19,10 @@ class StockGraph extends Component {
         this.state = { all_xlabels: this.emptyLabels, sampleDataset: null,lowestUtc:0 }
     }
 
-    // gets the sample data (google stock) and calls updateXLabels 
     componentDidMount() {
+    // get the stock data from database
+    fetch('/get-all-stocks');
+    // gets the sample data (google stock) and calls updateXLabels 
     const { lookback } = this.props
     var url = 'https://www.quandl.com/api/v3/datasets/WIKI/AMZN'+
        '.json?api_key=bCRpjzvgPNkxLzqAv2yY';
@@ -28,7 +31,6 @@ class StockGraph extends Component {
        return response.json()
      })
     .then((json) => {
-      console.log(json);
       this.setState({
         sampleDataset: json.dataset
       }, function() {
@@ -133,6 +135,9 @@ class StockGraph extends Component {
     if (Object.keys(stocks).length < 2) { chartOptions.showTooltips = false; }
     else { chartOptions.showTooltips = true; }
 
+  var haveUndefineds = chartData.labels.filter(label=>{
+    return label===undefined;
+  }).length > 0;
 
     return (
    	<div className="background">
@@ -141,6 +146,7 @@ class StockGraph extends Component {
     <div className="lineChart">
       <LineChart data={chartData} options={chartOptions} width="600" height="250" redraw/>
     </div>
+    <WaitingDisplay haveUndefineds={haveUndefineds}/>
     <div className="stockInput">
     Stock Symbol: <input ref="myInput" 
     			  onKeyDown={e=>this.handleInputChange(e,this.refs.myInput.value)}/>

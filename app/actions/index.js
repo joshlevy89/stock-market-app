@@ -1,10 +1,16 @@
-export function receive_stock(data) {
-	var dataset = data.dataset
+export function receive_stock(dataset) {
 	return {
 		type: 'RECEIVE_STOCK',
-		stockId: dataset.id,
-		dataset: dataset
+		dataset: dataset,
+    id: dataset.id
 	}
+}
+
+export function receive_all_stocks(datasets) {
+  return {
+    type: 'RECEIVE_ALL_STOCKS',
+    datasets: datasets
+  }
 }
 
 export function quandle_request(symbol) {
@@ -22,11 +28,16 @@ return (dispatch,getState) => {
     // check if symbol already in state
     var stocks = getState().stocks;
     for (var prop in stocks) {
-      console.log(stocks[prop]);
-      if (stocks[prop].id === json.dataset.id) {
+      if (stocks[prop].dataset_code === json.dataset.dataset_code) {
         alert('That stock symbol is plotted already.');
         return;
       }
+    }
+    // get id for stock
+    if (Object.keys(stocks).length === 0) { var id = 0; }
+    else { 
+        var maxId = Object.keys(stocks).reduce(function(a, b){ return stocks[a] > stocks[b] ? a : b }); 
+        var id = parseInt(maxId)+1;
     }
     // extract relevant parts of dataset to reduce transfer load
     var data = json.dataset.data.map(d=>{
@@ -34,7 +45,7 @@ return (dispatch,getState) => {
     });
     data = data.slice(0,365*10); // can go as much as 10 yrs back
     var dataset = {}; dataset.data = data; 
-    dataset.id=json.dataset.id; dataset.dataset_code=json.dataset.dataset_code;
+    dataset.id=id; dataset.dataset_code=json.dataset.dataset_code;
     var relData = {}; relData.dataset = dataset; 
     fetch('/add-stock-to-db', {
       method: 'post',
@@ -50,21 +61,21 @@ return (dispatch,getState) => {
   }
 }
 
-export function handle_delete_stock(key) {
+export function handle_delete_stock(id) {
   fetch('/delete-stock-from-db', {
       method: 'post',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
         },
-      body: JSON.stringify({key:key})
+      body: JSON.stringify({id:id})
     })
 }
 
-export function delete_stock(key) {
+export function delete_stock(id) {
   return {
     type: 'DELETE_STOCK',
-    key: key
+    id: id
   }
 }
 

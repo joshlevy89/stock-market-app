@@ -4,17 +4,19 @@ import { Map } from 'immutable'
 export function stocks(state={},action) {
 	switch (action.type) {
 		case 'RECEIVE_STOCK':
-			if (Object.keys(state).length === 0) { var maxId = 0; }
-			else { 
-				var maxId = Object.keys(state).reduce(function(a, b){ return state[a] > state[b] ? a : b }); 
-				maxId++;
-			}
 			return Object.assign({},state,{
-				[maxId]:action.dataset
+				[action.id]:action.dataset
 			})
+		case 'RECEIVE_ALL_STOCKS':
+		  for (var i = 0;i<action.datasets.length;i++) {
+		    var state = Object.assign({},state,{
+		    	[action.datasets[i].id]:action.datasets[i]
+		    })
+		  }
+		  return state;
 		case 'DELETE_STOCK':
 		    var state_copy = JSON.parse(JSON.stringify(state))
-			delete state_copy[action.key];
+			delete state_copy[action.id];
 			return state_copy
 		default:
 			return state
