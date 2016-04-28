@@ -2,6 +2,7 @@
 // locally we make sure it only runs in production
 if (process.env.NODE_ENV === 'production') {
 
+  console.log('Running deploy.js while in production mode');
   // We basically just create a child process that will run
   // the production bundle command
   var child_process = require('child_process');

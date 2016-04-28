@@ -16,8 +16,8 @@ var io = require('socket.io')(httpsServer);
 //var httpServer = http.createServer(app);
 //var io = require('socket.io')(httpServer);
 
-//var database = require('./server/database/db.js')
-//var db = new database();
+var database = require('./server/database/db.js')
+var db = new database();
 
 var proxy = httpProxy.createServer({
   ssl: {
@@ -39,7 +39,7 @@ app.use(cors());
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
-  console.log('hello')
+  console.log('Proxy on as running in development mode')
   // Any requests to localhost:3000/build is proxied
   // to webpack-server
   app.all('/build/*', function (req, res) {
@@ -49,7 +49,7 @@ if (!isProduction) {
   });
 }
 
-//db.dbConnect(function(err,db){
+db.dbConnect(function(err,db){
   // add stock to db
   app.post('/add-stock-to-db',function(req,res){
     var dataset = req.body.dataset;
@@ -80,7 +80,7 @@ if (!isProduction) {
       });
     })
   })
-//})
+})
 
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
