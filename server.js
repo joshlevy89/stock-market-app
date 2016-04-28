@@ -44,7 +44,7 @@ if (!isProduction) {
   // to webpack-server
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'https://localhost:8080'
+        target: 'http://localhost:8080'
     });
   });
 }
