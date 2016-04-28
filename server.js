@@ -15,8 +15,9 @@ var httpsServer = https.createServer({
 var io = require('socket.io')(httpsServer);
 //var httpServer = http.createServer(app);
 //var io = require('socket.io')(httpServer);
-var database = require('./server/database/db.js')
-var db = new database();
+
+//var database = require('./server/database/db.js')
+//var db = new database();
 
 var proxy = httpProxy.createServer({
   ssl: {
@@ -48,7 +49,7 @@ if (!isProduction) {
   });
 }
 
-db.dbConnect(function(err,db){
+//db.dbConnect(function(err,db){
   // add stock to db
   app.post('/add-stock-to-db',function(req,res){
     var dataset = req.body.dataset;
@@ -79,7 +80,7 @@ db.dbConnect(function(err,db){
       });
     })
   })
-})
+//})
 
 // It is important to catch any errors from the proxy or the
 // server will crash. An example of this is connecting to the
