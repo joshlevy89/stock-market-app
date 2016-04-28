@@ -8,26 +8,26 @@ var httpProxy = require('http-proxy');
 var https = require('https');
 var http = require('http');
 
-var httpsServer = https.createServer({
-      key: fs.readFileSync('key.pem'),
-      cert: fs.readFileSync('cert.pem')
-}, app);
-var io = require('socket.io')(httpsServer);
-//var httpServer = http.createServer(app);
-//var io = require('socket.io')(httpServer);
+// var httpsServer = https.createServer({
+//       key: fs.readFileSync('key.pem'),
+//       cert: fs.readFileSync('cert.pem')
+// }, app);
+// var io = require('socket.io')(httpsServer);
+var httpServer = http.createServer(app);
+var io = require('socket.io')(httpServer);
 
 var database = require('./server/database/db.js')
 var db = new database();
 
-var proxy = httpProxy.createServer({
-  ssl: {
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-  },
-  ws: true,
-  secure: true // Depends on your needs, could be false.
-})
-//var proxy = httpProxy.createProxyServer();
+// var proxy = httpProxy.createServer({
+//   ssl: {
+//     key: fs.readFileSync('key.pem'),
+//     cert: fs.readFileSync('cert.pem')
+//   },
+//   ws: true,
+//   secure: true // Depends on your needs, could be false.
+// })
+var proxy = httpProxy.createProxyServer();
 
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
@@ -90,10 +90,10 @@ proxy.on('error', function(e) {
   console.log('Could not connect to proxy, please try again...');
 });
 
-// httpServer.listen(port, function () {
-//   console.log('http server running on port ' + port);
-// });
-
-httpsServer.listen(port, function () {
-  console.log('https server running on port ' + (port));
+httpServer.listen(port, function () {
+  console.log('http server running on port ' + port);
 });
+
+// httpsServer.listen(port, function () {
+//   console.log('https server running on port ' + (port));
+// });

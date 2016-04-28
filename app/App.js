@@ -15,8 +15,8 @@ let store = createStore(
 	applyMiddleware(...middleware)
 )
 
-//var socket = io.connect('/');
-var socket = io.connect('/',{secure:true});
+var socket = io.connect('/');
+//var socket = io.connect('/',{secure:true});
 socket.on('new_stock_added', function(data) {
    store.dispatch(receive_stock(data.dataset))
 });
