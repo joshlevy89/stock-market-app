@@ -1,5 +1,6 @@
 This app allows users to track stock market trends in real time. 
-This project is hosted on heroku at: https://my-stock-watcher.herokuapp.com/.
+This project is hosted on heroku at: https://my-stock-watcher.herokuapp.com/.  
+Only guaranteed to work in chrome. 
 
 To run locally,   
 npm install stock-market-app  
@@ -14,3 +15,5 @@ This project fulfills the following user stories:
 -User Story: I can add new stocks by their symbol name.  
 -User Story: I can remove stocks.  
 -User Story: I can see changes in real-time when any other user adds or removes a stock. For this you will need to use Web Sockets.
+
+Built using the react-hot-boilerplate by Dan Abramov: https://github.com/gaearon/react-hot-boilerplate
