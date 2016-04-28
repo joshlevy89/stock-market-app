@@ -32,6 +32,9 @@ var mainPath = path.resolve(__dirname, '..', 'app', 'main.js');
     // http://localhost:3000/build -> http://localhost:8080/build
     publicPath: '/build/',
 
+    // allow for https
+    https: true,
+
     // Configure hot replacement
     hot: true,
 

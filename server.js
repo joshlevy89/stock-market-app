@@ -1,39 +1,49 @@
 var express = require('express');
 var app = express();
 const fs = require('fs');
+var path = require('path');
+var cors = require('cors');
+var bodyParser = require('body-parser');
+var httpProxy = require('http-proxy');
+var https = require('https');
+var http = require('http');
 
-var httpsServer = require('https').createServer({
+var httpsServer = https.createServer({
       key: fs.readFileSync('key.pem'),
       cert: fs.readFileSync('cert.pem')
-    }, app);
-//var httpsServer = require('https').createServer(options,app);
-//var httpServer = require('http').Server(app);
+}, app);
 var io = require('socket.io')(httpsServer);
+//var httpServer = http.createServer(app);
+//var io = require('socket.io')(httpServer);
 var database = require('./server/database/db.js')
 var db = new database();
 
-var path = require('path');
-var cors = require('cors')
-var bodyParser = require('body-parser')
-var httpProxy = require('http-proxy');
-var proxy = httpProxy.createProxyServer();
+var proxy = httpProxy.createServer({
+  ssl: {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+  },
+  ws: true,
+  secure: true // Depends on your needs, could be false.
+})
+//var proxy = httpProxy.createProxyServer();
+
 var isProduction = process.env.NODE_ENV === 'production';
 var port = isProduction ? process.env.PORT : 3000;
-var publicPath = path.resolve(__dirname, 'public');
 
+var publicPath = path.resolve(__dirname, 'public');
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(cors());
-//app.use(sslRedirect());
-
 
 // We only want to run the workflow when not in production
 if (!isProduction) {
+  console.log('hello')
   // Any requests to localhost:3000/build is proxied
   // to webpack-server
   app.all('/build/*', function (req, res) {
     proxy.web(req, res, {
-        target: 'http://localhost:8080'
+        target: 'https://localhost:8080'
     });
   });
 }
@@ -75,6 +85,7 @@ db.dbConnect(function(err,db){
 // server will crash. An example of this is connecting to the
 // server when webpack is bundling
 proxy.on('error', function(e) {
+  console.log(e);
   console.log('Could not connect to proxy, please try again...');
 });
 
